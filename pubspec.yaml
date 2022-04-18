@@ -1,15 +1,12 @@
 name: ao3_scraper
 description: "'Fake API' for the fanfiction website Ao3."
-version: 1.0.0
+version: 1.0.1
 # homepage: https://www.example.com
 
 environment:
   sdk: '>=2.16.2 <3.0.0'
 
 repository: https://github.com/JooJASL/ao3-scraper-dart
-
-# dependencies:
-#   path: ^1.8.0
 
 dev_dependencies:
   lints: ^1.0.0
