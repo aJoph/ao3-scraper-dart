@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 4.1.0">
+  <meta name="description" content="ao3_scraper API docs, for the Dart programming language.">
+  <title>ao3_scraper - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href=""
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li class="self-crumb">ao3_scraper package</li>
+  </ol>
+  <div class="self-name">ao3_scraper</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <!-- 
+This README describes the package. If you publish this package to pub.dev,
+this README's contents appear on the landing page for your package.
+
+For information about how to write a good package README, see the guide for
+[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+
+For general information about developing packages, see the Dart guide for
+[creating packages](https://dart.dev/guides/libraries/create-library-packages)
+and the Flutter guide for
+[developing packages and plugins](https://flutter.dev/developing-packages). 
+-->
+<p>This packages provides a "fake API" for accessing Ao3 works and bookmarks by webscraping the website. This package does not work with anything requiring authentication into Ao3.</p>
+<h2 id="features">Features</h2>
+<p>You can search for works given a certain keyword, or search through bookmarks of a person. As of now, only the first page of search/bookmarks is scraped.</p>
+<h2 id="usage">Usage</h2>
+<pre class="language-dart"><code class="language-dart">void main() {
+  var favWork = Ao3Client.searchWorks("Yesterday Upon the Stair");
+  favWork.then((value) {
+    // Prints title: Yesterday, Upon the Stair,
+    // fandom: Sherlock (TV),
+    // author: PhoenixDragon,
+    // description: Even if there was the remotest possibility that he was, indeed, Sherlock (and not a random figment of madness come to solid, breathing life),
+    // it still wasn't Sherlock. Too much time had passed.,
+    // number of chapters: 1,
+    // workID: 567621
+    print(value[0].toString());
+
+    print(Ao3Client.getURLfromWorkID(
+        value[0].workID)); // Prints https://archiveofourown.org/works/567621/
+  });
+
+  var bookmarkedWorks = Ao3Client.getBookmarksFromUsername(
+      "John"); // Returns all works found in the first page of bookmarks for the given username.
+  bookmarkedWorks.then((works) {
+    for (var work in works) {
+      print(work.toString());
+    }
+  });
+}
+</code></pre>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="ao3_scraper">
+  <span class="name"><a href="ao3_scraper/ao3_scraper-library.html">ao3_scraper</a></span> 
+
+</dt>
+<dd>Replicates an API (as Ao3 does not have a public one) by scraping archiveofourown.org for relevant information. <a href="ao3_scraper/ao3_scraper-library.html">[...]</a>
+</dd>
+
+        </dl>
+      </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li class="self-crumb">ao3_scraper package</li>
+</ol>
+
+
+    <h5 class="hidden-xs"><span class="package-name">ao3_scraper</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="ao3_scraper/ao3_scraper-library.html">ao3_scraper</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    ao3_scraper
+      1.0.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+
