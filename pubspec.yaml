@@ -6,7 +6,7 @@ version: 1.0.0
 environment:
   sdk: '>=2.16.2 <3.0.0'
 
-repository: https://github.com/JooJASL/ao3-scraper
+repository: https://github.com/JooJASL/ao3-scraper-dart
 
 # dependencies:
 #   path: ^1.8.0
