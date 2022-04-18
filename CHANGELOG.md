@@ -5,3 +5,7 @@
 ## 1.0.1
 
 - Updated license.
+
+## 1.0.2
+
+- Added example.
