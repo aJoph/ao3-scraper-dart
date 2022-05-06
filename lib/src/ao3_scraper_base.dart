@@ -80,6 +80,11 @@ class Ao3Client {
               ?.attributes["href"]
               ?.substring(7) ?? // In order to remove the "/works/" prefix.
           "1"),
+      link: getURLfromWorkID(int.parse(work // TODO: Make this less stupid.
+              .querySelector("h4.heading > a[href]")
+              ?.attributes["href"]
+              ?.substring(7) ?? // In order to remove the "/works/" prefix.
+          "1")),
       numberOfChapters:
           int.parse(work.querySelector("dd.chapters > a[href]")?.text ?? "1"),
     );
@@ -87,7 +92,7 @@ class Ao3Client {
 }
 
 class Work {
-  final String title, description, author;
+  final String title, description, author, link;
   final int numberOfChapters, workID;
   final Fandom fandom;
   const Work({
@@ -95,6 +100,7 @@ class Work {
     required this.fandom,
     required this.author,
     required this.description,
+    required this.link,
     required this.workID,
     required this.numberOfChapters,
   });
@@ -107,12 +113,13 @@ class Work {
       author: json['author'] as String,
       description: json['description'] as String,
       workID: json['workID'] as int,
+      link: json['link'] as String,
       numberOfChapters: json['numberOfChapters'] as int,
     );
   }
 
   factory Work.fromURL(String url) {
-    // TODO: Implement .fromURL()
+    // TODO: Implement Work.fromURL()
     throw ("Not implemented yet.");
   }
 
