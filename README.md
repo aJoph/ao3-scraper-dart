@@ -20,28 +20,18 @@ You can search for works given a certain keyword, or search through bookmarks of
 ## Usage
  
 ```dart
-void main() {
-  var favWork = Ao3Client.searchWorks("Yesterday Upon the Stair");
-  favWork.then((value) {
-    // Prints title: Yesterday, Upon the Stair,
-    // fandom: Sherlock (TV),
-    // author: PhoenixDragon,
-    // description: Even if there was the remotest possibility that he was, indeed, Sherlock (and not a random figment of madness come to solid, breathing life),
-    // it still wasn't Sherlock. Too much time had passed.,
-    // number of chapters: 1,
-    // workID: 567621
-    print(value[0].toString());
+void main() async {
+  var favWork = await Ao3Client.searchWorks("Yesterday Upon the Stair");
+  print(favWork[0].fandom) // Prints Sherlock (TV) 
+  print(favWork[0].link) // Prints https://archiveofourown.org/works/567621/
 
-    print(Ao3Client.getURLfromWorkID(
-        value[0].workID)); // Prints https://archiveofourown.org/works/567621/
-  });
+  // You can also get link to the work from the workID
+  var link = Ao3Client.getURLfromWorkID(favWork[0].workID);
+  print(link) // Prints https://archiveofourown.org/works/567621/
 
-  var bookmarkedWorks = Ao3Client.getBookmarksFromUsername(
-      "John"); // Returns all works found in the first page of bookmarks for the given username.
-  bookmarkedWorks.then((works) {
-    for (var work in works) {
-      print(work.toString());
-    }
-  });
+  // Returns a list of bookmarks by the given user. Optionally, you may choose from which of the bookmark pages (if more than one)
+  // you'd like to start scraping from. The scraper will always scrape from the starting point to the end; there's no way to scrape 
+  // only one page.
+  var bookmarkedWorks = await Ao3Client.getBookmarksFromUsername("John") 
 }
 ```

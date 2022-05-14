@@ -148,11 +148,6 @@ class Work {
     );
   }
 
-  factory Work.fromURL(String url) {
-    // TODO: Implement Work.fromURL()
-    throw ("Not implemented yet.");
-  }
-
   @override
   String toString() {
     return 'title: $title, fandom: ${fandom.name}, author: $author, description: $description, number of chapters: $numberOfChapters, workID: $workID';

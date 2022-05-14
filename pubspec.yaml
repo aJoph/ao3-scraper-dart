@@ -1,6 +1,6 @@
 name: ao3_scraper
-description: "'Fake API' for the fanfiction website Ao3."
-version: 1.0.1
+description: "Provides a 'Fake API' for accessing info from Ao3, focused primarily on getting info from bookmarks and searching for Works in the site."
+version: 1.0.3
 # homepage: https://www.example.com
 
 environment:
