@@ -4,10 +4,6 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 
-void main() {
-  Ao3Client.getBookmarksFromUsername("JooJASL");
-}
-
 /// Ao3Client is a Singleton class that exposes all of the library's functions as its methods.
 class Ao3Client {
   /// searchWorks searches the first page of results for the query in the argument.
@@ -61,13 +57,14 @@ class Ao3Client {
 
     var morePagesRemain = true;
     while (morePagesRemain) {
-      var nextButton = html.getElementById("next");
+      var nextButton = html.querySelector("li.next > a[rel]");
       if (nextButton == null) {
         morePagesRemain = false;
         break;
       }
 
-      final resp = await http.get(Uri.parse(nextButton.attributes['href']!));
+      final resp = await http.get(Uri.parse(
+          "https://archiveofourown.org" + nextButton.attributes['href']!));
 
       if (resp.statusCode == 404) {
         throw (StateError("No user found."));
