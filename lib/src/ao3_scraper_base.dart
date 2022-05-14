@@ -4,6 +4,10 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 
+void main() {
+  Ao3Client.getBookmarksFromUsername("JooJASL");
+}
+
 /// Ao3Client is a Singleton class that exposes all of the library's functions as its methods.
 class Ao3Client {
   /// searchWorks searches the first page of results for the query in the argument.
@@ -40,19 +44,37 @@ class Ao3Client {
   /// If it fails to find a value, it will be set to "Unknown" in the case of strings or 1 in the case of ints.
   ///
   /// Will throw error if user is not found, but not if user has 0 bookmarks.
-  static Future<List<Work>> getBookmarksFromUsername(
-      final String username) async {
+  static Future<List<Work>> getBookmarksFromUsername(String username,
+      {int page = 1}) async {
     final bookmarkedWorks = <Work>[];
-    final resp = await http.get(
-        Uri.parse("https://archiveofourown.org/users/$username/bookmarks"));
+
+    final resp = await http.get(Uri.parse(
+        "https://archiveofourown.org/users/$username/bookmarks?page=$page"));
 
     if (resp.statusCode == 404) {
-      throw ("No user found");
+      throw (StateError("No user found."));
     }
 
-    final bookmarks = parse(resp.body).querySelectorAll("li.bookmark");
-    for (final bookmark in bookmarks) {
-      bookmarkedWorks.add(_getWork(bookmark));
+    var html = parse(resp.body);
+
+    bookmarkedWorks.addAll(_getWorksFromPage(html));
+
+    var morePagesRemain = true;
+    while (morePagesRemain) {
+      var nextButton = html.getElementById("next");
+      if (nextButton == null) {
+        morePagesRemain = false;
+        break;
+      }
+
+      final resp = await http.get(Uri.parse(nextButton.attributes['href']!));
+
+      if (resp.statusCode == 404) {
+        throw (StateError("No user found."));
+      }
+
+      html = parse(resp.body);
+      bookmarkedWorks.addAll(_getWorksFromPage(html));
     }
 
     return bookmarkedWorks;
@@ -61,6 +83,17 @@ class Ao3Client {
   /// getURL
   static String getURLfromWorkID(int workID) {
     return "https://archiveofourown.org/works/$workID/";
+  }
+
+  static List<Work> _getWorksFromPage(Document html) {
+    final bookmarkedWorks = <Work>[];
+
+    final bookmarks = html.querySelectorAll("li.bookmark");
+    for (final bookmark in bookmarks) {
+      bookmarkedWorks.add(_getWork(bookmark));
+    }
+
+    return bookmarkedWorks;
   }
 
   /// _getWork is a helper function meant to parse the HTML Element and return an appropriate Work().
@@ -152,7 +185,6 @@ class Work {
 class Fandom {
   final String name, url;
   Fandom({required this.name, required this.url});
-
   factory Fandom.fromJson(Map<String, Object?> json) {
     return Fandom(
       name: json['name'] as String,
